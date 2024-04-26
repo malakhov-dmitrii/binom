@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchPost } from '../../helpers/api';
 import BlogCard from '../../components/blogCard/BlogCard';
-import { LoadingOutlined } from '@ant-design/icons';
 import Loading from '@/components/loading/Loading';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 
@@ -18,14 +17,15 @@ const PostPage = () => {
     return <p>Error</p>;
   }
   if (status === 'success') {
+    const [id, photo_url, title, description, updated_at] = data.blog
     return (
       <div>
         <BlogCard
-          id={data.blog.id}
-          image={data.blog.photo_url}
-          title={data.blog.title}
-          description={data.blog.description}
-          date={data.blog.updated_at}
+          id={id}
+          image={photo_url}
+          title={title}
+          description={description}
+          date={updated_at}
         />
       </div>
     );

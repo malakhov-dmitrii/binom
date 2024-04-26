@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 
 const useHomePageData = () => {
   const router = useRouter();
+  // const page = router.query || '1';
+  // const pageSize = router.query || '10'; 
   const { page, pageSize } = router.query;
   const q = useQuery(['blogs', page, pageSize], () =>
     fetchPosts(Number(page), Number(pageSize))
@@ -14,14 +16,5 @@ const useHomePageData = () => {
     pageSize: pageSize ? Number(pageSize) : 10,
   };
 };
-
-
-// const usePosts = (limit) => {
-//   return useQuery({
-//     queryKey: ['posts', limit],
-//     queryFn: () => fetchPosts(limit),
-//   })
-// }
-
 
 export default useHomePageData;
