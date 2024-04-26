@@ -1,16 +1,12 @@
-import { useQuery } from 'react-query';
-import { fetchPosts } from '../helpers/api';
-import Blog from '../components/blog/Blog';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { BlogsProps } from '../components/blog/Blog.props';
-import React from 'react';
-import { Flex } from 'antd';
-import { Pagination } from 'antd';
-import { PaginationProps } from 'antd';
-import Loading from '@/components/loading/Loading';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
-import useHomePageData from '@/helpers/hooks';
+import Blog from "@/components/blog/Blog";
+import { BlogsProps } from "@/components/blog/Blog.props";
+import Loading from "@/components/loading/Loading";
+import { fetchPosts } from "@/helpers/api";
+import useHomePageData from "@/helpers/hooks";
+import { Flex, Pagination } from "antd";
+import { useRouter } from "next/router";
+import { QueryClient, dehydrate } from "react-query";
+
 
 export default function Home() {
   const router = useRouter();
@@ -52,15 +48,15 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (ctx) => {
-  const { page, pageSize } = ctx.query;
+  const page = ctx.query.page || '1';
+  const pageSize = ctx.query.pageSize || '10';
   const queryClient = new QueryClient();
 
-  queryClient.prefetchQuery(['blogs', page, pageSize], () =>
-    fetchPosts(page, pageSize)
-  );
+  await queryClient.prefetchQuery(['blogs', page, pageSize], () => fetchPosts(page, pageSize));
+
   return {
     props: {
-      dehydrateState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

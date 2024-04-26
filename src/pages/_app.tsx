@@ -1,9 +1,7 @@
 import '@/styles/globals.css';
-// import '~antd/dist/antd.less';
 import { ConfigProvider } from 'antd';
 import theme from './theme/themeConfig';
 import type { AppProps } from '@/node-modules/next/app';
-
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { HydrationBoundary } from '@tanstack/react-query';

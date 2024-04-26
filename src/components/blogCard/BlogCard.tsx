@@ -4,6 +4,7 @@ import { Button, Flex, Space } from "antd";
 import { Image } from "antd";
 import styles from "./BlogCard.module.css";
 import { Typography } from "antd";
+import router from "next/router";
 
 function BlogCard({ id, image, title, description, date }: BlogCardProps) {
   const { Title } = Typography;
@@ -16,11 +17,11 @@ function BlogCard({ id, image, title, description, date }: BlogCardProps) {
       flex="1 1 10%"
       vertical
     >
-      <Link href="/" passHref>
-        <Button type="primary" className={styles["button"]} size="large">
+      {/* <Link href="/" passHref> */}
+        <Button type="primary" className={styles["button"]} size="large" onClick={() => router.back()}>
           back
         </Button>
-      </Link>
+      {/* </Link> */}
       <Flex style={{ width: "30%" }} vertical key={id}>
         <div className={styles[""]}>
           <Image align="center" src={image} />
