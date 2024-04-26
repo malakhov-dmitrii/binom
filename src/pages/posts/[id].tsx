@@ -1,44 +1,47 @@
-import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { fetchPost } from '../../helpers/api';
-import BlogCard from '../../components/blogCard/BlogCard';
-import Loading from '@/components/loading/Loading';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { useRouter } from "next/router";
+import { fetchPost } from "../../helpers/api";
+import BlogCard from "../../components/blogCard/BlogCard";
+import Loading from "@/components/loading/Loading";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next";
 
 const PostPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
-  const { data, status } = useQuery(['blog', id], fetchPost(id));
-  if (status === 'loading') {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchPost(id),
+  });
+  if (isLoading) {
     return <Loading />;
   }
-  if (status === 'error') {
+  if (error) {
     return <p>Error</p>;
   }
-  if (status === 'success') {
-    const [id, photo_url, title, description, updated_at] = data.blog
-    return (
-      <div>
-        <BlogCard
-          id={id}
-          image={photo_url}
-          title={title}
-          description={description}
-          date={updated_at}
-        />
-      </div>
-    );
-  }
+  const { id: blogId, photo_url, title, description, updated_at } = data.blog;
+  return (
+    <div>
+      <BlogCard
+        id={blogId}
+        image={photo_url}
+        title={title}
+        description={description}
+        date={updated_at}
+      />
+    </div>
+  );
 };
 
 export default PostPage;
 
-export const getStaticProps = async (ctx) => {
-  const [id] = ctx.query;
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { id } = ctx.query;
   const queryClient = new QueryClient();
 
-  queryClient.prefetchQuery(['blog', id], () => fetchPost(id));
+  queryClient.prefetchQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchPost(id),
+  });
 
   return {
     props: {

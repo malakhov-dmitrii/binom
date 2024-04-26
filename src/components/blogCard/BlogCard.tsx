@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { BlogCardProps } from "./BlogCard.props";
-import { Button, Flex, Space } from "antd";
+import { Button, Flex } from "antd";
 import { Image } from "antd";
 import styles from "./BlogCard.module.css";
 import { Typography } from "antd";
@@ -10,21 +9,19 @@ function BlogCard({ id, image, title, description, date }: BlogCardProps) {
   const { Title } = Typography;
 
   return (
-    <Flex
-      gap="middle"
-      align="center"
-      justify="center"
-      flex="1 1 10%"
-      vertical
-    >
-      {/* <Link href="/" passHref> */}
-        <Button type="primary" className={styles["button"]} size="large" onClick={() => router.back()}>
-          back
-        </Button>
+    <Flex gap="middle" align="center" justify="center" flex="1 1 10%" vertical>
+      <Button
+        type="primary"
+        className={styles["button"]}
+        size="large"
+        onClick={() => router.back()}
+      >
+        back
+      </Button>
       {/* </Link> */}
       <Flex style={{ width: "30%" }} vertical key={id}>
         <div className={styles[""]}>
-          <Image align="center" src={image} />
+          <Image src={image} width={400} height={300} alt="image" />
         </div>
         <div>
           <Title level={1}>{title}</Title>

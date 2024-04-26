@@ -1,13 +1,18 @@
-import '@/styles/globals.css';
-import { ConfigProvider } from 'antd';
-import theme from './theme/themeConfig';
-import type { AppProps } from '@/node-modules/next/app';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { HydrationBoundary } from '@tanstack/react-query';
-const queryClient = new QueryClient();
+import "@/styles/globals.css";
+import { ConfigProvider } from "antd";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import theme from "./theme/themeConfig";
+import { AppProps } from "next/app";
+import { useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <ConfigProvider theme={theme}>
       <QueryClientProvider client={queryClient}>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./Blog.module.css";
 import { BlogProps } from "./Blog.props";
 import { Typography } from "antd";
+import Image from "next/image";
 
 function Blog({ id, image, title, date }: BlogProps) {
   const { Title } = Typography;
@@ -9,7 +10,14 @@ function Blog({ id, image, title, date }: BlogProps) {
     <Link href={`/posts/${id}`}>
       <div key={id}>
         <div>
-          <img src={image} />
+          <Image
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60oe8gAAAABJRU5ErkJggg=="
+            placeholder="blur"
+            src={image}
+            alt="image"
+            width={200}
+            height={150}
+          />
         </div>
         <div>
           <Title>{title}</Title>

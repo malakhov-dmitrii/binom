@@ -1,15 +1,17 @@
-import { useRouter } from 'next/router';
-import { fetchPosts } from './api';
-import { useQuery } from 'react-query';
+import { useRouter } from "next/router";
+import { fetchPosts } from "./api";
+import { useQuery } from "@tanstack/react-query";
 
 const useHomePageData = () => {
   const router = useRouter();
-  // const page = router.query || '1';
-  // const pageSize = router.query || '10'; 
-  const { page, pageSize } = router.query;
-  const q = useQuery(['blogs', page, pageSize], () =>
-    fetchPosts(Number(page), Number(pageSize))
-  );
+  const page = router.query.page || "1";
+  const pageSize = router.query.pageSize || "10";
+
+  const q = useQuery({
+    queryKey: ["blogs", page, pageSize],
+    queryFn: () => fetchPosts(Number(page), Number(pageSize)),
+    retry: 0,
+  });
   return {
     ...q,
     page: page ? Number(page) : 1,
